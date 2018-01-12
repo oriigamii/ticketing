@@ -21,23 +21,23 @@ export default {
     }
   }
 }
-document.body.appendChild(List)
-for (var i = 0; i < Names.length; i++) {
-  console.log(i)
-  let item = document.createElement('li')
-  item.appendChild(document.createTextNode(Names[i]))
-  List.appendChild(i)
-}
+// document.body.appendChild(List)
+// for (var i = 0; i < Names.length; i++) {
+//   console.log(i)
+//   let item = document.createElement('li')
+//   item.appendChild(document.createTextNode(Names[i]))
+//   List.appendChild(i)
+// }
 
-function createItem(name){
-  let item = document.createElement('li')
-  item.appendChild(document.createTextNode(name))
-  return item
-}
+// function createItem(name){
+//   let item = document.createElement('li')
+//   item.appendChild(document.createTextNode(name))
+//   return item
+// }
 
-document.querySelector('#addUser').onclick = function() {
-  alert('new added')
-}
+// document.querySelector('#addUser').onclick = function() {
+//   alert('new added')
+// }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
