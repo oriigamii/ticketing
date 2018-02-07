@@ -2,11 +2,11 @@
     <tr id="task">
       <td><input :data-id='id' type="checkbox"></td>
       <td>{{id}}</td>
-      <td>{{firstName}}</td>
-      <td>{{lastName}}</td>
-      <td>{{mail}}</td>
-      <td>{{phone}}</td>
-      <td>{{content}}</td>
+      <td contenteditable="true" @input="test(id)">{{firstName}}</td>
+      <td contenteditable="true" @input="test(id)">{{lastName}}</td>
+      <td contenteditable="true" @input="test(id)">{{mail}}</td>
+      <td contenteditable="true" @input="test(id)">{{phone}}</td>
+      <td contenteditable="true" @input="test(id)">{{content}}</td>
       <td>
         <div class="btn btn-info">
           <i class="fa fa-edit"></i>
@@ -29,6 +29,11 @@ export default {
     'phone',
     'content'
   ],
+  methods:{
+    editContent: function(id){
+      
+    }
+  },
   data () {
     return {
 
@@ -36,19 +41,3 @@ export default {
   }
 }
 </script>
-
-<style media="screen">
-
-  .btn{
-    border-radius: 2px;
-    padding: 4px;
-    display: inline-block;
-    transition: .4s opacity;
-  }
-
-  .btn:hover{
-    opacity: .6;
-    cursor: pointer;
-  }
-
-</style>
