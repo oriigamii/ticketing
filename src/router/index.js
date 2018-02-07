@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import toto from '@/components/toto'
+import TaskList from '@/components/TaskList'
 
 Vue.use(Router)
 
@@ -9,13 +8,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
-    },
-    {
-      path: '/toto',
-      name: 'toto',
-      component: toto
+      name: 'TaskList',
+      component: TaskList
     }
   ]
 })
