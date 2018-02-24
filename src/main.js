@@ -8,10 +8,17 @@ Vue.component('v-select', vSelect)
 require("font-awesome-webpack");
 Vue.config.productionTip = false
 
+import store from './components/TodoStore.js'
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  store,
+  beforeCreate() {
+    console.log('test');
+    this.$store.commit('INITIALISE_STORE');
+  }
 })

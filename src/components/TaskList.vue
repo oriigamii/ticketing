@@ -6,9 +6,8 @@
         Ajouter un tâche
       </div>
       <div class="actions">
-        <v-select class="bulk-action" :options="
+        <v-select class="bulk-action" placeholder="Actions de masse" :options="
         [
-          {label: 'Selectionnez une action à effetcuer', value: ''},
           {label: 'Supprimer', value: 'delete'}
         ]
         "></v-select>
@@ -20,12 +19,42 @@
         <thead>
           <tr>
             <th>#</th>
-            <th>id</th>
-            <th>Prénom</th>
-            <th>Nom</th>
-            <th>E-mail</th>
-            <th>Phone</th>
-            <th>Contenu</th>
+            <th>id
+              <i  @click="displaySearch($event)"
+              v-bind:class="[isSearchIdShown ? 'fa-close' : 'fa-search', 'fa']"
+              data-searchtype="id"></i>
+              <input type="search" id="id" v-show="isSearchIdShown" class="search">
+            </th>
+            <th>Prénom
+              <i @click="displaySearch($event)"
+              v-bind:class="[isSearchFirstnameShown ? 'fa-close' : 'fa-search', 'fa']"
+              data-searchtype="firstname"></i>
+              <input type="search" id="firstname" v-show="isSearchFirstnameShown" class="search">
+            </th>
+            <th>Nom
+              <i @click="displaySearch($event)"
+              v-bind:class="[isSearchNameShown ? 'fa-close' : 'fa-search', 'fa']"
+              data-searchtype="name"></i>
+              <input type="search" id="name" v-show="isSearchNameShown" class="search">
+            </th>
+            <th>E-mail
+              <i @click="displaySearch($event)"
+              v-bind:class="[isSearchEmailShown ? 'fa-close' : 'fa-search', 'fa']"
+              data-searchtype="email"></i>
+              <input type="search" id="email" v-show="isSearchEmailShown" class="search">
+            </th>
+            <th>Phone
+              <i @click="displaySearch($event)"
+              v-bind:class="[isSearchPhoneShown ? 'fa-close' : 'fa-search', 'fa']"
+              data-searchtype="phone"></i>
+              <input type="search" id="phone" v-show="isSearchPhoneShown" class="search">
+            </th>
+            <th>Contenu
+              <i @click="displaySearch($event)"
+              v-bind:class="[isSearchContentShown ? 'fa-close' : 'fa-search', 'fa']"
+              data-searchtype="content"></i>
+              <input type="search" id="content" v-show="isSearchContentShown" class="search">
+            </th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -57,16 +86,33 @@
 </template>
 
 <script>
+import Vuex from 'vuex'
+import store from './TodoStore.js'
 import Task from './Task.vue'
-import json from '../data/fakeData.json'
 
 export default {
   name: 'TaskList',
   components: {Task},
+  methods: {
+    displaySearch: function(e){
+      let inputName = e.target.dataset.searchtype
+      let capitalizedInputName = e.target.dataset.searchtype.charAt(0).toUpperCase() + e.target.dataset.searchtype.slice( 1 )
+      console.log(capitalizedInputName);
+      this["isSearch" + capitalizedInputName + "Shown"] = !this["isSearch" + capitalizedInputName + "Shown"]
+    }
+  },
+  computed: {
+      ...Vuex.mapGetters(['taskList'])
+  },
   data () {
     return {
       title: 'Liste des tâches',
-      taskList: json
+      isSearchIdShown: false,
+      isSearchFirstnameShown: false,
+      isSearchNameShown: false,
+      isSearchEmailShown: false,
+      isSearchPhoneShown: false,
+      isSearchContentShown: false,
     }
   }
 }

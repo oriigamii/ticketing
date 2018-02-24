@@ -1,12 +1,12 @@
 <template>
     <tr id="task">
-      <td><input :data-id='id' type="checkbox"></td>
+      <td><input data-id='id' type="checkbox"></td>
       <td>{{id}}</td>
-      <td contenteditable="true" @input="test(id)">{{firstName}}</td>
-      <td contenteditable="true" @input="test(id)">{{lastName}}</td>
-      <td contenteditable="true" @input="test(id)">{{mail}}</td>
-      <td contenteditable="true" @input="test(id)">{{phone}}</td>
-      <td contenteditable="true" @input="test(id)">{{content}}</td>
+      <td contenteditable="true" @input="editTaskContent(id,$event)">{{firstName}}</td>
+      <td contenteditable="true" @input="editTaskContent(id,$event)">{{lastName}}</td>
+      <td contenteditable="true" @input="editTaskContent(id,$event)">{{mail}}</td>
+      <td contenteditable="true" @input="editTaskContent(id,$event)">{{phone}}</td>
+      <td contenteditable="true" @input="editTaskContent(id,$event)">{{content}}</td>
       <td>
         <div class="btn btn-info">
           <i class="fa fa-edit"></i>
@@ -30,8 +30,8 @@ export default {
     'content'
   ],
   methods:{
-    editContent: function(id){
-      
+    editTaskContent: function(id,e){
+      console.log(e.target.textContent);
     }
   },
   data () {
