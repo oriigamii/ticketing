@@ -8,7 +8,7 @@ Vue.component('v-select', vSelect)
 require("font-awesome-webpack");
 Vue.config.productionTip = false
 
-import store from './components/TodoStore.js'
+import store from './components/InterventionStore.js'
 
 /* eslint-disable no-new */
 new Vue({
@@ -18,7 +18,6 @@ new Vue({
   components: { App },
   store,
   beforeCreate() {
-    console.log('test');
-    this.$store.commit('INITIALISE_STORE');
+    this.$store.commit('INITIALISE_STORE')
   }
 })

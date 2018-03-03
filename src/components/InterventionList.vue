@@ -1,9 +1,11 @@
 <template>
-    <div id="taskList">
+    <div id="interventionList">
+      <interventionModal :showModal='showModal' @closeModal='showModal=false'></interventionModal>
+      <a href="#" @click="displayModal()">Test</a>
       <h1 class="viewTitle">{{title}}</h1>
-      <div class="btn btn--addTask btn--default">
+      <div class="btn btn--addintervention btn--default">
         <i class="fa fa-plus"></i>
-        Ajouter un tâche
+        Ajouter un intervention
       </div>
       <div class="actions">
         <v-select class="bulk-action" placeholder="Actions de masse" :options="
@@ -59,14 +61,14 @@
           </tr>
         </thead>
         <tbody>
-            <task v-for="task in taskList"
-              :id='task.id'
-              :firstName='task.firstName'
-              :lastName='task.lastName'
-              :mail='task.mail'
-              :phone='task.phone'
-              :content='task.content'
-            ></task>
+            <intervention v-for="intervention in interventionList"
+              :id='intervention.id'
+              :firstName='intervention.firstName'
+              :lastName='intervention.lastName'
+              :mail='intervention.mail'
+              :phone='intervention.phone'
+              :content='intervention.content'
+            ></intervention>
         </tbody>
         <tfoot>
           <tr>
@@ -87,26 +89,32 @@
 
 <script>
 import Vuex from 'vuex'
-import store from './TodoStore.js'
-import Task from './Task.vue'
+import store from './InterventionStore.js'
+import Intervention from './Intervention.vue'
+import InterventionModal from './InterventionModal.vue'
+
 
 export default {
-  name: 'TaskList',
-  components: {Task},
+  name: 'InterventionList',
+  components: {Intervention,InterventionModal},
   methods: {
     displaySearch: function(e){
       let inputName = e.target.dataset.searchtype
       let capitalizedInputName = e.target.dataset.searchtype.charAt(0).toUpperCase() + e.target.dataset.searchtype.slice( 1 )
       console.log(capitalizedInputName);
       this["isSearch" + capitalizedInputName + "Shown"] = !this["isSearch" + capitalizedInputName + "Shown"]
-    }
+    },
+    displayModal: function(){
+      this.showModal = !this.showModal
+    },
   },
   computed: {
-      ...Vuex.mapGetters(['taskList'])
+      ...Vuex.mapGetters(['interventionList'])
   },
   data () {
     return {
-      title: 'Liste des tâches',
+      showModal: false,
+      title: 'Liste des interventions',
       isSearchIdShown: false,
       isSearchFirstnameShown: false,
       isSearchNameShown: false,
@@ -119,7 +127,7 @@ export default {
 </script>
 
 <style media="screen">
-  .addTask,.viewTitle{
+  .addintervention,.viewTitle{
     display: inline-block;
     vertical-align: middle;
     height:100%;
@@ -146,13 +154,13 @@ export default {
     display: inline-block;
     max-width: 250px;
   }
-  .btn--addTask{
+  .btn--addintervention{
     margin-left: 10px;
   }
   .btn--validateBulk{
     margin-left: 10px;
   }
-  .addTask:hover{
+  .addintervention:hover{
     opacity: .6;
   }
   .actions{
