@@ -4,12 +4,15 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import vSelect from 'vue-select'
+import moment from 'moment'
+import VueFlashMessage from 'vue-flash-message';
+Vue.use(VueFlashMessage);
+require('vue-flash-message/dist/vue-flash-message.min.css');
 Vue.component('v-select', vSelect)
 require("font-awesome-webpack");
 Vue.config.productionTip = false
 
 import store from './components/InterventionStore.js'
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

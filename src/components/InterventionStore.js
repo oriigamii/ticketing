@@ -3,9 +3,6 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 import interventionListData from '../data/fakeData.json'
-
-
-
 let store = new Vuex.Store({
   mutations:{
     ADD_INTERVENTION: (state, intervention) => {
@@ -14,7 +11,9 @@ let store = new Vuex.Store({
     EDIT_INTERVENTION: (state, params) => {
       state.interventionList.filter(el => {
         if (el.id === params.id) {
-          el[params.contentType] = params.content
+          for(let paramName in params){
+            el[paramName] = params[paramName]
+          }
         }
       });
     },
@@ -36,10 +35,19 @@ let store = new Vuex.Store({
 		}
   },
   getters:{
-    interventionList: (state) => { return state.interventionList}
+    interventionList: (state) => { return state.interventionList},
   },
   actions:{
+    interventionById: (store,id) => {
+        return store.state.interventionList.filter( el => {
+          if (el.id == id) {
+            return el;
+          }
+        }
+      )
+    },
     addIntervention: (store,intervention) =>{
+      intervention.id = store.state.interventionList.length + 1
       store.commit('ADD_INTERVENTION',intervention);
     },
     removeIntervention: (store,id) =>{

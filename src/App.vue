@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <flash-message class="myCustomClass"></flash-message>
     <router-view/>
   </div>
 </template>
@@ -27,6 +28,10 @@ export default {
 [contenteditable="true"]:focus{
 border:none;
 outline:none;
+}
+
+.hideOnMobile{
+  display:none;
 }
 
 </style>

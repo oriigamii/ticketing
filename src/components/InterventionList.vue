@@ -1,9 +1,12 @@
 <template>
     <div id="interventionList">
-      <interventionModal :showModal='showModal' @closeModal='showModal=false'></interventionModal>
-      <a href="#" @click="displayModal()">Test</a>
+      <interventionModal
+      :showModal='showModal'
+      :idInterventionToEdit='idInterventionToEdit'
+      @closeModal='showModal=false'>
+      </interventionModal>
       <h1 class="viewTitle">{{title}}</h1>
-      <div class="btn btn--addintervention btn--default">
+      <div class="btn btn--addintervention btn--default" @click="displayModal()">
         <i class="fa fa-plus"></i>
         Ajouter un intervention
       </div>
@@ -20,8 +23,8 @@
       <table>
         <thead>
           <tr>
-            <th>#</th>
-            <th>id
+            <th class="hideOnMobile">#</th>
+            <th >id
               <i  @click="displaySearch($event)"
               v-bind:class="[isSearchIdShown ? 'fa-close' : 'fa-search', 'fa']"
               data-searchtype="id"></i>
@@ -57,6 +60,12 @@
               data-searchtype="content"></i>
               <input type="search" id="content" v-show="isSearchContentShown" class="search">
             </th>
+            <th>Date de publication
+              <i @click="displaySearch($event)"
+              v-bind:class="[isSearchDateTimeShown ? 'fa-close' : 'fa-search', 'fa']"
+              data-searchtype="dateTime"></i>
+              <input type="search" id="content" v-show="isSearchDateTimeShown" class="search">
+            </th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -68,6 +77,8 @@
               :mail='intervention.mail'
               :phone='intervention.phone'
               :content='intervention.content'
+              :dateTime='intervention.dateTime'
+              @displayModal='displayModal(intervention.id)'
             ></intervention>
         </tbody>
         <tfoot>
@@ -79,6 +90,7 @@
             <th>E-mail</th>
             <th>Phone</th>
             <th>Contenu</th>
+            <th>Date de publication</th>
             <th>Actions</th>
           </tr>
         </tfoot>
@@ -101,10 +113,10 @@ export default {
     displaySearch: function(e){
       let inputName = e.target.dataset.searchtype
       let capitalizedInputName = e.target.dataset.searchtype.charAt(0).toUpperCase() + e.target.dataset.searchtype.slice( 1 )
-      console.log(capitalizedInputName);
       this["isSearch" + capitalizedInputName + "Shown"] = !this["isSearch" + capitalizedInputName + "Shown"]
     },
-    displayModal: function(){
+    displayModal: function(idInterventionToEdit){
+      this.idInterventionToEdit = idInterventionToEdit
       this.showModal = !this.showModal
     },
   },
@@ -120,7 +132,9 @@ export default {
       isSearchNameShown: false,
       isSearchEmailShown: false,
       isSearchPhoneShown: false,
+      isSearchDateTimeShown: false,
       isSearchContentShown: false,
+      idInterventionToEdit:''
     }
   }
 }
@@ -166,4 +180,52 @@ export default {
   .actions{
     text-align: left;
   }
+
+
+
+  @media screen and (max-width: 600px) {
+  table {
+    border: 0;
+  }
+  table caption {
+    font-size: 1.3rem;
+  }
+  table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+  table tr {
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: .625em;
+  }
+  table td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: 1rem;
+    text-align: right;
+  }
+  table td:before {
+    /*
+    * aria-label has no advantage, it won't be read inside a table
+    content: attr(aria-label);
+    */
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  table td:last-child {
+    border-bottom: 0;
+  }
+  .actions{
+    display: none;
+  }
+}
 </style>

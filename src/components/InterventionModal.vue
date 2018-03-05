@@ -4,27 +4,46 @@
       <div class="modal-mask">
         <div class="modal-wrapper">
           <div class="modal-container">
-
-            <div class="modal-header">
-              <slot name="header">
-                default header
-              </slot>
+            <div class="modal-close" @click="$emit('closeModal')">
+              <i class="fa fa-close"></i>
             </div>
-
-            <div class="modal-body">
-              <slot name="body">
-                default body
-              </slot>
-            </div>
-
-            <div class="modal-footer">
-              <slot name="footer">
-                default footer
-                <button class="modal-default-button" @click="$emit('closeModal')">
-                  OK
-                </button>
-              </slot>
-            </div>
+            <form class="" action="" method="">
+              <div class="modal-header">
+                <h1>Ajouter une intervention</h1>
+                <div id="formErrors">
+                    <div v-for="error in errors">{{error}}</div>
+                </div>
+              </div>
+              <div class="modal-body">
+                <input type="hidden" v-model="id" name="firstName">
+                <input type="hidden" v-model="dateTime" name="firstName">
+                <div class="formField">
+                  <label class="required" for="firstName">Prénom</label>
+                  <input type="text" v-model="firstName" name="firstName">
+                </div>
+                <div class="formField">
+                  <label class="required" for="lastName">Nom de famille</label>
+                  <input type="text" v-model="lastName" name="lastName">
+                </div>
+                <div class="formField">
+                  <label class="required" for="mail">E-mail</label>
+                  <input type="text" name="mail" v-model="mail" >
+                </div>
+                <div class="formField">
+                  <label class="required" for="phone">Téléphone</label>
+                  <input type="phone" name="phone" v-model="phone" >
+                </div>
+                <div class="formField">
+                  <label class="required" for="content">Contenu</label>
+                  <textarea name="content" v-model="content" id="content"></textarea>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <div class="btn btn--default" @click="validateFormData()">
+                  Ajouter l'intervention
+                </div>
+              </div>
+          </form>
           </div>
         </div>
       </div>
@@ -33,17 +52,93 @@
 </template>
 
 <script>
-import Vuex from 'vuex'
+import {mapActions} from 'vuex'
+import moment from 'moment'
 export default {
   name: 'interventionModal',
   methods:{
-
+    validateFormData: function(){
+      if (this.firstName != ''
+      && this.lastName != ''
+      && this.mail != ''
+      && this.phone != ''
+      && this.content != '') {
+          if (this.id != '') {
+            this.editIntervention({
+              'id'       : this.id,
+              'firstName': this.firstName,
+              'lastName' : this.lastName,
+              'mail'     : this.mail,
+              'phone'    : this.phone,
+              'content'  : this.content,
+              'dateTime' : this.dateTime
+            })
+          }else{
+            this.addIntervention({
+              'firstName': this.firstName,
+              'lastName' : this.lastName,
+              'mail'     : this.mail,
+              'phone'    : this.phone,
+              'content'  : this.content,
+              'dateTime' : moment().format('Y-MM-dd hh:mm:ss')
+            })
+          }
+          this.$emit('closeModal');
+      }else{
+        this.errors = []
+        this.errors.push('Vous devez remplir tous les champs du formulaire')
+      }
+    },
+    getDefaultData: function(){
+        Object.assign(this.$data, {
+          id:'',
+          dateTime:'',
+          firstName:'',
+          lastName:'',
+          mail:'',
+          phone:'',
+          content:'',
+          errors:[]
+        });
+    },
+    ...mapActions(['addIntervention','editIntervention','interventionById']),
   },
   props: [
-    'showModal'
+    'showModal',
+    'idInterventionToEdit'
   ],
+  watch: {
+        showModal : function(){
+          if (this.idInterventionToEdit == undefined) {
+            this.getDefaultData();
+          }
+        },
+        idInterventionToEdit : function(){
+          if (this.idInterventionToEdit != undefined) {
+            var that = this
+            let interventionData = this.interventionById(this.idInterventionToEdit)
+            interventionData.then(function(interventionObj){
+              that.id = interventionObj[0].id
+              that.dateTime = interventionObj[0].dateTime
+              that.firstName = interventionObj[0].firstName
+              that.lastName = interventionObj[0].lastName
+              that.mail = interventionObj[0].mail
+              that.phone = interventionObj[0].phone
+              that.content = interventionObj[0].content
+            })
+          }
+        }
+  },
   data () {
     return {
+      id:'',
+      dateTime:'',
+      firstName:'',
+      lastName:'',
+      mail:'',
+      phone:'',
+      content:'',
+      errors:[]
     }
   }
 }
@@ -91,6 +186,21 @@ export default {
   float: right;
 }
 
+#formErrors div{
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    padding: 15px;
+    padding-right: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+        border-top-color: transparent;
+        border-right-color: transparent;
+        border-bottom-color: transparent;
+        border-left-color: transparent;
+    border-radius: 4px;
+}
+
 /*
 * The following styles are auto-applied to elements with
 * transition="modal" when their visibility is toggled
@@ -99,7 +209,31 @@ export default {
 * You can easily play with the modal transition by editing
 * these styles.
 */
-
+.modal-body{
+  text-align: left;
+}
+.formField input{
+  min-height:20px;
+}
+.formField input,
+.formField textarea{
+  width: 100%;
+  outline: none;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.formField{
+  margin:10px;
+}
+.formField label{
+  display: block;
+  margin-bottom: 5px;
+}
+.required::after{
+  content:'*';
+  color:red;
+}
 .modal-enter {
   opacity: 0;
 }
@@ -107,7 +241,25 @@ export default {
 .modal-leave-active {
   opacity: 0;
 }
-
+.modal-container{
+  position: relative;
+}
+.modal-close{
+  border-radius: 100%;
+  background-color: #2ae6a3;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right:-12px;
+  top:-12px;
+  cursor: pointer;
+}
+.modal-close i{
+  color:white;
+}
 .modal-enter .modal-container,
 .modal-leave-active .modal-container {
   -webkit-transform: scale(1.1);
