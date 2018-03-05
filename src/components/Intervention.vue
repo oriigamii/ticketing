@@ -7,7 +7,7 @@
       <td data-label="E-mail" contenteditable="true" @input="editInterventionContent(id,'mail',$event)"><div>{{mail}}</div></td>
       <td data-label="Phone" contenteditable="true" @input="editInterventionContent(id,'phone',$event)"><div>{{phone}}</div></td>
       <td data-label="Contenu" contenteditable="true" @input="editInterventionContent(id,'content',$event)"><div>{{content}}</div></td>
-      <td data-label="Date de publication" contenteditable="true" @input="editInterventionContent(id,'dateTime',$event)"><div>{{dateTime}}</div></td>
+      <td data-label="Date de publication"><div>{{dateTime}}</div></td>
       <td data-label="Actions">
         <div>
           <i class="fa fa-check" @click="$emit('markInterventionAsResolved')"></i>
@@ -49,5 +49,11 @@ export default {
 <style media="screen">
   .fa{
     cursor: pointer;
+  }
+  @media screen and (max-width:600px) {
+	   td .fa{
+       font-size: 5vw;
+       padding: 10px;
+     }
   }
 </style>

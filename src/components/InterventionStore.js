@@ -52,6 +52,7 @@ let store = new Vuex.Store({
     },
     ADD_INTERVENTION: (state, intervention) => {
       state.interventionList.push(intervention);
+      state.searchInterventionList = state.interventionList
     },
     EDIT_INTERVENTION: (state, params) => {
       state.interventionList.filter(el => {
@@ -61,6 +62,7 @@ let store = new Vuex.Store({
           }
         }
       });
+      state.searchInterventionList = state.interventionList
     },
     EDIT_INTERVENTION_IN_CONTENT: (state, params) => {
       state.interventionList.filter(el => {
@@ -71,6 +73,7 @@ let store = new Vuex.Store({
     },
     REMOVE_INTERVENTION: (state, id) => {
       state.interventionList = state.interventionList.filter(el => {return el.id !== id});
+      state.searchInterventionList = state.interventionList
     },
     INITIALISE_STORE(state) {
 			// Check if the ID exists
@@ -115,7 +118,7 @@ let store = new Vuex.Store({
       store.commit('SORT_INTERVENTION',columnName);
     },
     addIntervention: (store,intervention) =>{
-      intervention.id = store.state.interventionList.length + 1
+      intervention.id = store.state.interventionList.length + 2
       store.commit('ADD_INTERVENTION',intervention);
     },
     removeIntervention: (store,id) =>{
@@ -140,6 +143,7 @@ store.subscribe((mutation, state) => {
   if (mutation.type  == 'ADD_INTERVENTION'
     || mutation.type == 'REMOVE_INTERVENTION'
     || mutation.type == 'EDIT_INTERVENTION'
+    || mutation.type == 'EDIT_INTERVENTION_IN_CONTENT'
     ) {
       localStorage.setItem('store', JSON.stringify(state));
       store.commit('INIT_SEARCH_STATE')

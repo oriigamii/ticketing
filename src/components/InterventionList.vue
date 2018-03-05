@@ -26,43 +26,43 @@
         <thead>
           <tr>
             <th class="hideOnMobile">#</th>
-            <th @click="sortByColumn($event)" data-column="id" data-type="int">id
+            <th @click="sortByColumn($event)" class="columnName" data-column="id" data-type="int">id
               <i  @click="displaySearch($event)"
               v-bind:class="[isSearchIdShown ? 'fa-close' : 'fa-search', 'fa']"
               data-searchtype="id"></i>
               <input @input="filterSearch($event.target)" ref="SearchId" type="search" id="id" v-show="isSearchIdShown" class="search">
             </th >
-            <th @click="sortByColumn($event)" data-column="firstName" data-type="string">Prénom
+            <th @click="sortByColumn($event)" class="columnName" data-column="firstName" data-type="string">Prénom
               <i @click="displaySearch($event)"
               v-bind:class="[isSearchFirstnameShown ? 'fa-close' : 'fa-search', 'fa']"
               data-searchtype="firstname"></i>
               <input @input="filterSearch($event.target)" ref="SearchFirstname" type="search" id="firstName" v-show="isSearchFirstnameShown" class="search">
             </th >
-            <th @click="sortByColumn($event)" data-column="lastName" data-type="string">Nom
+            <th @click="sortByColumn($event)" class="columnName" data-column="lastName" data-type="string">Nom
               <i @click="displaySearch($event)"
               v-bind:class="[isSearchNameShown ? 'fa-close' : 'fa-search', 'fa']"
               data-searchtype="name"></i>
               <input @input="filterSearch($event.target)" ref="SearchName" type="search" id="lastName" v-show="isSearchNameShown" class="search">
             </th >
-            <th @click="sortByColumn($event)" data-column="mail" data-type="mail">E-mail
+            <th @click="sortByColumn($event)" class="columnName" data-column="mail" data-type="mail">E-mail
               <i @click="displaySearch($event)"
               v-bind:class="[isSearchEmailShown ? 'fa-close' : 'fa-search', 'fa']"
               data-searchtype="email"></i>
               <input @input="filterSearch($event.target)" ref="SearchEmail" type="search" id="mail" v-show="isSearchEmailShown" class="search">
             </th>
-            <th @click="sortByColumn($event)" data-column="phone" data-type="phone">Phone
+            <th @click="sortByColumn($event)" class="columnName" data-column="phone" data-type="phone">Phone
               <i @click="displaySearch($event)"
               v-bind:class="[isSearchPhoneShown ? 'fa-close' : 'fa-search', 'fa']"
               data-searchtype="phone"></i>
                 <input @input="filterSearch($event.target)" ref="SearchPhone" type="search" id="phone" v-show="isSearchPhoneShown" class="search">
             </th >
-            <th @click="sortByColumn($event)" data-column="content" data-type="string">Contenu
+            <th @click="sortByColumn($event)" class="columnName" data-column="content" data-type="string">Contenu
               <i @click="displaySearch($event)"
               v-bind:class="[isSearchContentShown ? 'fa-close' : 'fa-search', 'fa']"
               data-searchtype="content"></i>
               <input @input="filterSearch($event.target)" ref="SearchContent" type="search" id="content" v-show="isSearchContentShown" class="search">
             </th>
-            <th @click="sortByColumn($event)" data-column="dateTime" data-type="dateTime">Date de publication
+            <th @click="sortByColumn($event)" class="columnName" data-column="dateTime" data-type="dateTime">Date de publication
               <i @click="displaySearch($event)"
               v-bind:class="[isSearchDateTimeShown ? 'fa-close' : 'fa-search', 'fa']"
               data-searchtype="dateTime"></i>
@@ -177,6 +177,9 @@ export default {
     display: block;
     margin: 0 auto;
   }
+  .columnName{
+    cursor: pointer;
+  }
   .btn{
     border-radius: 5px;
     display: inline-block;
@@ -235,7 +238,9 @@ export default {
   .hideOnMobile{
     display:none;
   }
-
+  .btn--addintervention{
+    margin-left: 0;
+  }
   table {
     border: 0;
   }
