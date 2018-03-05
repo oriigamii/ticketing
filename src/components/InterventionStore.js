@@ -5,6 +5,21 @@ Vue.use(Vuex)
 import interventionListData from '../data/fakeData.json'
 let store = new Vuex.Store({
   mutations:{
+    SORT_INTERVENTION: (state, columnName) =>{
+      if (columnName == store.state.currentSortedColumn) {
+        store.state.sortDirection = !store.state.sortDirection
+      }else{
+        store.state.currentSortedColumn = columnName
+        store.state.sortDirection = 1
+      }
+      var sortBy = function(property,order){
+          return function (a,b) {
+              var result = (a[property].toLowerCase() < b[property].toLowerCase()) ? -1 : (a[property].toLowerCase() > b[property].toLowerCase()) ? 1 : 0
+              return result * (store.state.sortDirection ? 1 : -1)
+          }
+      }
+      store.state.interventionList.sort(sortBy(columnName))
+    },
     ADD_INTERVENTION: (state, intervention) => {
       state.interventionList.push(intervention);
     },
@@ -46,6 +61,9 @@ let store = new Vuex.Store({
         }
       )
     },
+    sortInterventions : (store, columnName) => {
+      store.commit('SORT_INTERVENTION',columnName);
+    },
     addIntervention: (store,intervention) =>{
       intervention.id = store.state.interventionList.length + 1
       store.commit('ADD_INTERVENTION',intervention);
@@ -58,15 +76,14 @@ let store = new Vuex.Store({
     }
   },
   state:{
-    interventionList:{}
+    interventionList: {},
+    currentSortedColumn: '',
+    sortDirection: 1
   },
   strict: true
 })
-
 store.subscribe((mutation, state) => {
 	localStorage.setItem('store', JSON.stringify(state));
 })
-
 global.store = store;
-
 export default store

@@ -9,7 +9,7 @@
             </div>
             <div class="interventionDetails" v-show="modalType=='details'">
               <div class="modal-header">
-                <h1>Intervention n°{{id}}</h1>
+                <h1>Demande d'intervention n°{{id}}</h1>
               </div>
               <div class="modal-body">
                 <div class="">
@@ -27,6 +27,9 @@
                 <div class="">
                   Contenu : {{content}}
                 </div>
+              </div>
+              <div class="modal-footer">
+                Demande faite le : {{ dateTime }}
               </div>
             </div>
             <form v-show="modalType=='addEdit'" class="" action="" method="">

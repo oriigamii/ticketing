@@ -6,66 +6,75 @@
       :modalType='modalType'
       @closeModal='showModal=false'>
       </interventionModal>
-      <h1 class="viewTitle">{{title}}</h1>
-      <div class="btn btn--addintervention btn--default" @click="displayModal('addEdit')">
-        <i class="fa fa-plus"></i>
-        Ajouter un intervention
-      </div>
-      <div class="actions">
-        <v-select class="bulk-action" placeholder="Actions de masse" :options="
-        [
-          {label: 'Supprimer', value: 'delete'}
-        ]
-        "></v-select>
-        <div class="btn btn--validateBulk btn--default">
-          Valider
+      <div class="interventionHeader">
+        <h1 class="viewTitle">{{title}}</h1>
+        <div class="btn btn--addintervention btn--default" @click="displayModal('addEdit')">
+          <i class="fa fa-plus"></i>
+          Ajouter un intervention
         </div>
+      </div>
+      <div class="interventionListHeader">
+        <div class="actions">
+          <v-select class="bulk-action" placeholder="Actions de masse" :options="
+          [
+            {label: 'Supprimer', value: 'delete'}
+          ]
+          ">
+          </v-select>
+          <div class="btn btn--validateBulk btn--default">
+            Valider
+          </div>
+        </div>
+        <!--
+        <div class="searchByKeyWord">
+          <input type="search" placeholder="Recherche par mot-clés" v-model="searchByKeyword">
+        </div> -->
       </div>
       <table>
         <thead>
           <tr>
             <th class="hideOnMobile">#</th>
-            <th >id
+            <th @click="sortByColumn($event)" data-column="id" data-type="int">id
               <i  @click="displaySearch($event)"
               v-bind:class="[isSearchIdShown ? 'fa-close' : 'fa-search', 'fa']"
               data-searchtype="id"></i>
               <input type="search" id="id" v-show="isSearchIdShown" class="search">
-            </th>
-            <th>Prénom
+            </th >
+            <th @click="sortByColumn($event)" data-column="firstName" data-type="string">Prénom
               <i @click="displaySearch($event)"
               v-bind:class="[isSearchFirstnameShown ? 'fa-close' : 'fa-search', 'fa']"
               data-searchtype="firstname"></i>
               <input type="search" id="firstname" v-show="isSearchFirstnameShown" class="search">
-            </th>
-            <th>Nom
+            </th >
+            <th @click="sortByColumn($event)" data-column="lastName" data-type="string">Nom
               <i @click="displaySearch($event)"
               v-bind:class="[isSearchNameShown ? 'fa-close' : 'fa-search', 'fa']"
               data-searchtype="name"></i>
               <input type="search" id="name" v-show="isSearchNameShown" class="search">
-            </th>
-            <th>E-mail
+            </th >
+            <th @click="sortByColumn($event)" data-column="mail" data-type="mail">E-mail
               <i @click="displaySearch($event)"
               v-bind:class="[isSearchEmailShown ? 'fa-close' : 'fa-search', 'fa']"
               data-searchtype="email"></i>
               <input type="search" id="email" v-show="isSearchEmailShown" class="search">
             </th>
-            <th>Phone
+            <th @click="sortByColumn($event)" data-column="phone" data-type="phone">Phone
               <i @click="displaySearch($event)"
               v-bind:class="[isSearchPhoneShown ? 'fa-close' : 'fa-search', 'fa']"
               data-searchtype="phone"></i>
                 <input type="search" id="phone" v-show="isSearchPhoneShown" class="search">
-            </th>
-            <th>Contenu
+            </th >
+            <th @click="sortByColumn($event)" data-column="content" data-type="string">Contenu
               <i @click="displaySearch($event)"
               v-bind:class="[isSearchContentShown ? 'fa-close' : 'fa-search', 'fa']"
               data-searchtype="content"></i>
               <input type="search" id="content" v-show="isSearchContentShown" class="search">
             </th>
-            <th>Date de publication
+            <th @click="sortByColumn($event)" data-column="dateTime" data-type="dateTime">Date de publication
               <i @click="displaySearch($event)"
               v-bind:class="[isSearchDateTimeShown ? 'fa-close' : 'fa-search', 'fa']"
               data-searchtype="dateTime"></i>
-              <input type="search" id="content" v-show="isSearchDateTimeShown" class="search">
+              <input type="search" id="dateTime" v-show="isSearchDateTimeShown" class="search">
             </th>
             <th>Actions</th>
           </tr>
@@ -120,9 +129,15 @@ export default {
       this.showModal = !this.showModal
       this.modalType = modalType
     },
+    sortByColumn: function(e){
+      let datatype = e.target.dataset.type
+      let columnName = e.target.dataset.column
+      this.sortInterventions(columnName)
+    },
+    ...Vuex.mapActions(['sortInterventions'])
   },
   computed: {
-      ...Vuex.mapGetters(['interventionList'])
+    ...Vuex.mapGetters(['interventionList'])
   },
   data () {
     return {
@@ -136,7 +151,9 @@ export default {
       isSearchPhoneShown: false,
       isSearchDateTimeShown: false,
       isSearchContentShown: false,
-      idInterventionToEdit:''
+      idInterventionToEdit:'',
+      searchByKeyword:'',
+      sortDirection:'DESC'
     }
   }
 }
@@ -179,10 +196,14 @@ export default {
   .addintervention:hover{
     opacity: .6;
   }
-  .actions{
+  .actions,
+  .searchByKeyWord{
+    text-align: left;
+    display: inline-block;
+  }
+  .interventionListHeader{
     text-align: left;
   }
-
 
 
   @media screen and (max-width: 600px) {
