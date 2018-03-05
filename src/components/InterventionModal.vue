@@ -7,7 +7,29 @@
             <div class="modal-close" @click="$emit('closeModal')">
               <i class="fa fa-close"></i>
             </div>
-            <form class="" action="" method="">
+            <div class="interventionDetails" v-show="modalType=='details'">
+              <div class="modal-header">
+                <h1>Intervention n°{{id}}</h1>
+              </div>
+              <div class="modal-body">
+                <div class="">
+                  Prénom : {{firstName}}
+                </div>
+                <div class="">
+                  Nom : {{lastName}}
+                </div>
+                <div class="">
+                  E-mail : {{mail}}
+                </div>
+                <div class="">
+                  Téléphone : {{ phone }}
+                </div>
+                <div class="">
+                  Contenu : {{content}}
+                </div>
+              </div>
+            </div>
+            <form v-show="modalType=='addEdit'" class="" action="" method="">
               <div class="modal-header">
                 <h1>Ajouter une intervention</h1>
                 <div id="formErrors">
@@ -40,7 +62,7 @@
               </div>
               <div class="modal-footer">
                 <div class="btn btn--default" @click="validateFormData()">
-                  Ajouter l'intervention
+                  {{messageButton}}
                 </div>
               </div>
           </form>
@@ -98,19 +120,27 @@ export default {
           mail:'',
           phone:'',
           content:'',
-          errors:[]
+          errors:[],
+          messageButton:''
         });
     },
     ...mapActions(['addIntervention','editIntervention','interventionById']),
   },
   props: [
     'showModal',
-    'idInterventionToEdit'
+    'idInterventionToEdit',
+    'modalType'
   ],
   watch: {
         showModal : function(){
+          // Cas d'une création
           if (this.idInterventionToEdit == undefined) {
             this.getDefaultData();
+            this.messageButton = 'Ajouter une intervention'
+          }else{
+            // Cas d'une modfication
+            this.messageButton = 'Éditer l\'intervention'
+
           }
         },
         idInterventionToEdit : function(){
@@ -138,7 +168,8 @@ export default {
       mail:'',
       phone:'',
       content:'',
-      errors:[]
+      errors:[],
+      messageButton:''
     }
   }
 }

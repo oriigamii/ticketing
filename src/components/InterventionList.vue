@@ -3,10 +3,11 @@
       <interventionModal
       :showModal='showModal'
       :idInterventionToEdit='idInterventionToEdit'
+      :modalType='modalType'
       @closeModal='showModal=false'>
       </interventionModal>
       <h1 class="viewTitle">{{title}}</h1>
-      <div class="btn btn--addintervention btn--default" @click="displayModal()">
+      <div class="btn btn--addintervention btn--default" @click="displayModal('addEdit')">
         <i class="fa fa-plus"></i>
         Ajouter un intervention
       </div>
@@ -52,7 +53,7 @@
               <i @click="displaySearch($event)"
               v-bind:class="[isSearchPhoneShown ? 'fa-close' : 'fa-search', 'fa']"
               data-searchtype="phone"></i>
-              <input type="search" id="phone" v-show="isSearchPhoneShown" class="search">
+                <input type="search" id="phone" v-show="isSearchPhoneShown" class="search">
             </th>
             <th>Contenu
               <i @click="displaySearch($event)"
@@ -78,7 +79,8 @@
               :phone='intervention.phone'
               :content='intervention.content'
               :dateTime='intervention.dateTime'
-              @displayModal='displayModal(intervention.id)'
+              @displayModal='displayModal("addEdit",intervention.id)'
+              @showInterventionDetail='displayModal("details",intervention.id)'
             ></intervention>
         </tbody>
         <tfoot>
@@ -104,8 +106,6 @@ import Vuex from 'vuex'
 import store from './InterventionStore.js'
 import Intervention from './Intervention.vue'
 import InterventionModal from './InterventionModal.vue'
-
-
 export default {
   name: 'InterventionList',
   components: {Intervention,InterventionModal},
@@ -115,9 +115,10 @@ export default {
       let capitalizedInputName = e.target.dataset.searchtype.charAt(0).toUpperCase() + e.target.dataset.searchtype.slice( 1 )
       this["isSearch" + capitalizedInputName + "Shown"] = !this["isSearch" + capitalizedInputName + "Shown"]
     },
-    displayModal: function(idInterventionToEdit){
+    displayModal: function(modalType,idInterventionToEdit){
       this.idInterventionToEdit = idInterventionToEdit
       this.showModal = !this.showModal
+      this.modalType = modalType
     },
   },
   computed: {
@@ -126,6 +127,7 @@ export default {
   data () {
     return {
       showModal: false,
+      modalType: 'addEdit',
       title: 'Liste des interventions',
       isSearchIdShown: false,
       isSearchFirstnameShown: false,

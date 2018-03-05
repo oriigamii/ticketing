@@ -67,7 +67,6 @@ store.subscribe((mutation, state) => {
 	localStorage.setItem('store', JSON.stringify(state));
 })
 
-
 global.store = store;
 
 export default store
