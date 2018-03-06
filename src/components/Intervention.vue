@@ -7,6 +7,7 @@
       <td data-label="E-mail" contenteditable="true" @input="editInterventionContent(id,'mail',$event)"><div>{{mail}}</div></td>
       <td data-label="Phone" contenteditable="true" @input="editInterventionContent(id,'phone',$event)"><div>{{phone}}</div></td>
       <td data-label="Contenu" contenteditable="true" @input="editInterventionContent(id,'content',$event)"><div>{{content}}</div></td>
+      <td data-label="Technicien" contenteditable="true" @input="editInterventionContent(id,'technicien',$event)"><div>{{technicien}}</div></td>
       <td data-label="Date de publication"><div>{{dateTime}}</div></td>
       <td data-label="Actions">
         <div>
@@ -30,6 +31,7 @@ export default {
     'lastName',
     'mail',
     'phone',
+    'technicien',
     'content',
     'dateTime'
   ],

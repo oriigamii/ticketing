@@ -62,6 +62,12 @@
               data-searchtype="content"></i>
               <input @input="filterSearch($event.target)" ref="SearchContent" type="search" id="content" v-show="isSearchContentShown" class="search">
             </th>
+            <th @click="sortByColumn($event)" class="columnName" data-column="technicien" data-type="string">Technicien
+              <i @click="displaySearch($event)"
+              v-bind:class="[isSearchContentShown ? 'fa-close' : 'fa-search', 'fa']"
+              data-searchtype="content"></i>
+              <input @input="filterSearch($event.target)" ref="SearchTechnicien" type="search" id="technicien" v-show="isSearchTechnicienShown" class="search">
+            </th>
             <th @click="sortByColumn($event)" class="columnName" data-column="dateTime" data-type="dateTime">Date de publication
               <i @click="displaySearch($event)"
               v-bind:class="[isSearchDateTimeShown ? 'fa-close' : 'fa-search', 'fa']"
@@ -79,6 +85,7 @@
               :mail='intervention.mail'
               :phone='intervention.phone'
               :content='intervention.content'
+              :technicien='intervention.technicien'
               :dateTime='intervention.dateTime'
               @displayModal='displayModal("addEdit",intervention.id)'
               @showInterventionDetail='displayModal("details",intervention.id)'
@@ -93,6 +100,7 @@
             <th>E-mail</th>
             <th>Phone</th>
             <th>Contenu</th>
+            <th>Technicien</th>
             <th>Date de publication</th>
             <th style="min-width:10%;">Actions</th>
           </tr>
@@ -156,6 +164,7 @@ export default {
       isSearchPhoneShown: false,
       isSearchDateTimeShown: false,
       isSearchContentShown: false,
+      isSearchTechnicienShown: false,
       idInterventionToEdit:'',
       searchByKeyword:'',
       sortDirection:'DESC',

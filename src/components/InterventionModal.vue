@@ -27,6 +27,9 @@
                 <div class="">
                   Contenu : {{content}}
                 </div>
+                <div class="">
+                  Technicien : {{technicien}}
+                </div>
               </div>
               <div class="modal-footer">
                 Demande faite le : {{ dateTime }}
@@ -62,6 +65,10 @@
                   <label class="required" for="content">Contenu</label>
                   <textarea name="content" v-model="content" id="content"></textarea>
                 </div>
+                <div class="formField">
+                  <label class="required" for="content">Technicien</label>
+                  <textarea name="content" v-model="technicien" id="content"></textarea>
+                </div>
               </div>
               <div class="modal-footer">
                 <div class="btn btn--default" @click="validateFormData()">
@@ -87,6 +94,7 @@ export default {
       && this.lastName != ''
       && this.mail != ''
       && this.phone != ''
+      && this.technicien != ''
       && this.content != '') {
           if (this.id != '') {
             this.editIntervention({
@@ -96,6 +104,7 @@ export default {
               'mail'     : this.mail,
               'phone'    : this.phone,
               'content'  : this.content,
+              'technicien'  : this.technicien,
               'dateTime' : this.dateTime
             })
           }else{
@@ -105,6 +114,7 @@ export default {
               'mail'     : this.mail,
               'phone'    : this.phone,
               'content'  : this.content,
+              'technicien'  : this.technicien,
               'dateTime' : moment().format('Y-MM-dd hh:mm:ss')
             })
           }
@@ -123,6 +133,7 @@ export default {
           mail:'',
           phone:'',
           content:'',
+          technicien:'',
           errors:[],
           messageButton:''
         });
@@ -157,6 +168,7 @@ export default {
               that.lastName = interventionObj[0].lastName
               that.mail = interventionObj[0].mail
               that.phone = interventionObj[0].phone
+              that.technicien = interventionObj[0].technicien
               that.content = interventionObj[0].content
             })
           }
@@ -171,6 +183,7 @@ export default {
       mail:'',
       phone:'',
       content:'',
+      technicien:'',
       errors:[],
       messageButton:''
     }
