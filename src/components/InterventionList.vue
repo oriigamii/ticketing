@@ -181,6 +181,7 @@ export default {
   }
   table{
     min-width: 100%;
+    padding: 20px;
   }
   input[type=search]{
     display: block;
@@ -252,6 +253,7 @@ export default {
   }
   table {
     border: 0;
+    padding: 0;
   }
   table caption {
     font-size: 1.3rem;
@@ -265,6 +267,9 @@ export default {
     padding: 0;
     position: absolute;
     width: 1px;
+  }
+  table tbody{
+    padding: 20px;
   }
   table tr {
     border-bottom: 3px solid #ddd;
