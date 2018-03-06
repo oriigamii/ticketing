@@ -64,7 +64,7 @@
             </th>
             <th @click="sortByColumn($event)" class="columnName" data-column="technicien" data-type="string">Technicien
               <i @click="displaySearch($event)"
-              v-bind:class="[isSearchContentShown ? 'fa-close' : 'fa-search', 'fa']"
+              v-bind:class="[isSearchTechnicienShown ? 'fa-close' : 'fa-search', 'fa']"
               data-searchtype="content"></i>
               <input @input="filterSearch($event.target)" ref="SearchTechnicien" type="search" id="technicien" v-show="isSearchTechnicienShown" class="search">
             </th>
