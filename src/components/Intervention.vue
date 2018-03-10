@@ -22,10 +22,9 @@
 
 <script>
 import Vuex from 'vuex'
-import store from './InterventionStore.js'
 export default {
   name: 'intervention',
-  props:[
+  props: [
     'id',
     'firstName',
     'lastName',
@@ -35,11 +34,11 @@ export default {
     'content',
     'dateTime'
   ],
-  methods:{
-    editInterventionContent: function(id,key,e){
-      this.editInterventionInContent({'id':id,'key':key,'content':e.target.textContent})
+  methods: {
+    editInterventionContent: function (id, key, e) {
+      this.editInterventionInContent({'id': id, 'key': key, 'content': e.target.textContent})
     },
-    ...Vuex.mapActions(['removeIntervention','editInterventionInContent'])
+    ...Vuex.mapActions(['removeIntervention', 'editInterventionInContent'])
   },
   data () {
     return {

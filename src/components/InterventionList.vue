@@ -117,41 +117,39 @@ import Intervention from './Intervention.vue'
 import InterventionModal from './InterventionModal.vue'
 export default {
   name: 'InterventionList',
-  components: {Intervention,InterventionModal},
+  components: {Intervention, InterventionModal},
   methods: {
-    displaySearch: function(e){
+    displaySearch: function (e) {
       let inputName = e.target.dataset.searchtype
-      let capitalizedInputName = e.target.dataset.searchtype.charAt(0).toUpperCase() + e.target.dataset.searchtype.slice( 1 )
+      let capitalizedInputName = e.target.dataset.searchtype.charAt(0).toUpperCase() + e.target.dataset.searchtype.slice(1)
       for (var col in this.$refs) {
-        this.$refs[col].value = '';
-        if (col != 'Search'+capitalizedInputName) {
-          this["is" + col + "Shown"] = false
+        this.$refs[col].value = ''
+        if (col != 'Search' + capitalizedInputName) {
+          this['is' + col + 'Shown'] = false
         }
       }
-      this["isSearch" + capitalizedInputName + "Shown"] = !this["isSearch" + capitalizedInputName + "Shown"]
-      if (this["isSearch" + capitalizedInputName + "Shown"] == false) {
-        store.commit('INIT_SEARCH_STATE');
+      this['isSearch' + capitalizedInputName + 'Shown'] = !this['isSearch' + capitalizedInputName + 'Shown']
+      if (this['isSearch' + capitalizedInputName + 'Shown'] === false) {
+        store.commit('INIT_SEARCH_STATE')
       }
-
     },
-    displayModal: function(modalType,idInterventionToEdit){
+    displayModal: function (modalType, idInterventionToEdit) {
       this.idInterventionToEdit = idInterventionToEdit
       this.showModal = !this.showModal
       this.modalType = modalType
     },
-    sortByColumn: function(e){
+    sortByColumn: function (e) {
       let datatype = e.target.dataset.type
       let columnName = e.target.dataset.column
       this.sortInterventions(columnName)
     },
-    ...Vuex.mapActions(['sortInterventions','filterSearch','searchByKeyWord','limitNumberOfInterventions'])
+    ...Vuex.mapActions(['sortInterventions', 'filterSearch', 'searchByKeyWord', 'limitNumberOfInterventions'])
   },
   computed: {
     ...Vuex.mapGetters(['interventionList'])
   },
   watch: {
-  }
-  ,
+  },
   data () {
     return {
       showModal: false,
@@ -165,9 +163,9 @@ export default {
       isSearchDateTimeShown: false,
       isSearchContentShown: false,
       isSearchTechnicienShown: false,
-      idInterventionToEdit:'',
-      searchByKeyword:'',
-      sortDirection:'DESC',
+      idInterventionToEdit: '',
+      searchByKeyword: '',
+      sortDirection: 'DESC',
       selectedNumberOfIntervention: 10
     }
   }
