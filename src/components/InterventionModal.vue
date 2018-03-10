@@ -88,57 +88,57 @@ import {mapActions} from 'vuex'
 import moment from 'moment'
 export default {
   name: 'interventionModal',
-  methods:{
-    validateFormData: function(){
-      if (this.firstName != ''
-      && this.lastName != ''
-      && this.mail != ''
-      && this.phone != ''
-      && this.technicien != ''
-      && this.content != '') {
-          if (this.id != '') {
-            this.editIntervention({
-              'id'       : this.id,
-              'firstName': this.firstName,
-              'lastName' : this.lastName,
-              'mail'     : this.mail,
-              'phone'    : this.phone,
-              'content'  : this.content,
-              'technicien'  : this.technicien,
-              'dateTime' : this.dateTime
-            })
-          }else{
-            this.addIntervention({
-              'firstName': this.firstName,
-              'lastName' : this.lastName,
-              'mail'     : this.mail,
-              'phone'    : this.phone,
-              'content'  : this.content,
-              'technicien'  : this.technicien,
-              'dateTime' : moment().format('Y-MM-dd hh:mm:ss')
-            })
-          }
-          this.$emit('closeModal');
-      }else{
+  methods: {
+    validateFormData: function () {
+      if (this.firstName !== '' &&
+       this.lastName !== '' &&
+       this.mail !== '' &&
+       this.phone !== '' &&
+       this.technicien !== '' &&
+       this.content !== '') {
+        if (this.id !== '') {
+          this.editIntervention({
+            'id': this.id,
+            'firstName': this.firstName,
+            'lastName': this.lastName,
+            'mail': this.mail,
+            'phone': this.phone,
+            'content': this.content,
+            'technicien': this.technicien,
+            'dateTime': this.dateTime
+          })
+        } else {
+          this.addIntervention({
+            'firstName': this.firstName,
+            'lastName': this.lastName,
+            'mail': this.mail,
+            'phone': this.phone,
+            'content': this.content,
+            'technicien': this.technicien,
+            'dateTime': moment().format('Y-MM-dd hh:mm:ss')
+          })
+        }
+        this.$emit('closeModal')
+      } else {
         this.errors = []
         this.errors.push('Vous devez remplir tous les champs du formulaire')
       }
     },
-    getDefaultData: function(){
-        Object.assign(this.$data, {
-          id:'',
-          dateTime:'',
-          firstName:'',
-          lastName:'',
-          mail:'',
-          phone:'',
-          content:'',
-          technicien:'',
-          errors:[],
-          messageButton:''
-        });
+    getDefaultData: function () {
+      Object.assign(this.$data, {
+        id: '',
+        dateTime: '',
+        firstName: '',
+        lastName: '',
+        mail: '',
+        phone: '',
+        content: '',
+        technicien: '',
+        errors: [],
+        messageButton: ''
+      })
     },
-    ...mapActions(['addIntervention','editIntervention','interventionById']),
+    ...mapActions(['addIntervention', 'editIntervention', 'interventionById'])
   },
   props: [
     'showModal',
@@ -146,46 +146,45 @@ export default {
     'modalType'
   ],
   watch: {
-        showModal : function(){
-          // Cas d'une création
-          if (this.idInterventionToEdit == undefined) {
-            this.getDefaultData();
-            this.messageButton = 'Ajouter une intervention'
-          }else{
-            // Cas d'une modfication
-            this.messageButton = 'Éditer l\'intervention'
-
-          }
-        },
-        idInterventionToEdit : function(){
-          if (this.idInterventionToEdit != undefined) {
-            var that = this
-            let interventionData = this.interventionById(this.idInterventionToEdit)
-            interventionData.then(function(interventionObj){
-              that.id = interventionObj[0].id
-              that.dateTime = interventionObj[0].dateTime
-              that.firstName = interventionObj[0].firstName
-              that.lastName = interventionObj[0].lastName
-              that.mail = interventionObj[0].mail
-              that.phone = interventionObj[0].phone
-              that.technicien = interventionObj[0].technicien
-              that.content = interventionObj[0].content
-            })
-          }
-        }
+    showModal: function () {
+      // Cas d'une création
+      if (this.idInterventionToEdit === undefined) {
+        this.getDefaultData()
+        this.messageButton = 'Ajouter une intervention'
+      } else {
+        // Cas d'une modfication
+        this.messageButton = 'Éditer l\'intervention'
+      }
+    },
+    idInterventionToEdit: function () {
+      if (this.idInterventionToEdit !== undefined) {
+        var that = this
+        let interventionData = this.interventionById(this.idInterventionToEdit)
+        interventionData.then(function (interventionObj) {
+          that.id = interventionObj[0].id
+          that.dateTime = interventionObj[0].dateTime
+          that.firstName = interventionObj[0].firstName
+          that.lastName = interventionObj[0].lastName
+          that.mail = interventionObj[0].mail
+          that.phone = interventionObj[0].phone
+          that.technicien = interventionObj[0].technicien
+          that.content = interventionObj[0].content
+        })
+      }
+    }
   },
   data () {
     return {
-      id:'',
-      dateTime:'',
-      firstName:'',
-      lastName:'',
-      mail:'',
-      phone:'',
-      content:'',
-      technicien:'',
-      errors:[],
-      messageButton:''
+      id: '',
+      dateTime: '',
+      firstName: '',
+      lastName: '',
+      mail: '',
+      phone: '',
+      content: '',
+      technicien: '',
+      errors: [],
+      messageButton: ''
     }
   }
 }

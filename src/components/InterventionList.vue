@@ -124,7 +124,7 @@ export default {
       let capitalizedInputName = e.target.dataset.searchtype.charAt(0).toUpperCase() + e.target.dataset.searchtype.slice(1)
       for (var col in this.$refs) {
         this.$refs[col].value = ''
-        if (col != 'Search' + capitalizedInputName) {
+        if (col !== 'Search' + capitalizedInputName) {
           this['is' + col + 'Shown'] = false
         }
       }
